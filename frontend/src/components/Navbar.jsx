@@ -1,36 +1,80 @@
-import React from "react";
+import React, { useState } from "react";
 import { assets } from "../assets/assets.js";
 import { NavLink, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+    const [showMenu, setShowMenu] = useState(false);
+    const [token, setToken] = useState(true);
+
+
     return (
         <>
             <div className="flex items-center justify-between text-sm py-4 border-b mb-5 border-b-gray-400">
                 <img className="w-44 cursor-pointer" src={assets.logo} alt="" />
-                <ul className="hidden md:flex font-medium items-center justify-between gap-4">
-                    <NavLink to="/" >
+
+                {/* navbar lists */}
+                <ul className="hidden md:flex font-medium items-center justify-between gap-6">
+                    <NavLink to="/">
                         <li className="py-1">HOME</li>
                         <hr className="outline-none border-none m-auto w-3/4 h-0.5 bg-primary hidden" />
                     </NavLink>
-                    <NavLink to="/doctors" >
+                    <NavLink to="/doctors">
                         <li className="py-1">ALL DOCTORS</li>
                         <hr className="outline-none border-none mx-auto w-3/4 h-0.5 bg-primary hidden " />
                     </NavLink>
-                    <NavLink to="/about" >
+                    <NavLink to="/about">
                         <li className="py-1">ABOUT</li>
                         <hr className="outline-none border-none m-auto w-3/4 h-0.5 bg-primary hidden" />
                     </NavLink>
-                    <NavLink to="/contact" >
+                    <NavLink to="/contact">
                         <li className="py-1">CONTACT</li>
                         <hr className="outline-none border-none w-3/4 h-0.5 bg-primary hidden" />
                     </NavLink>
-                    <div className="font-normal py-1 border rounded-full">
+                    <div className="font-semibold text-xs py-1 border rounded-full">
                         <button className="mx-4">Admin Panel</button>
                     </div>
                 </ul>
                 <div className="flex items-center gap-4">
-                    <button onClick={() => navigate("/login")} className="bg-primary px-8 py-3 font-light text-white rounded-full">Create Account</button>
+                    {token ? (
+                        <div className="flex items-center gap-2 cursor-pointer  group relative">
+                            <img
+                                className="w-8 rounded-full"
+                                src={assets.profile_pic}
+                                alt=""
+                            />
+                            <img className="w-2.5" src={assets.dropdown_icon} alt="" />
+                            <div className="absolute top-0 right-0 pt-14 z-20 text-gray-600 text-base font-medium hidden group-hover:block">
+                                <div className="bg-stone-100 min-w-48 rounded flex flex-col gap-2 p-4">
+                                    <p
+                                        className="hover:text-black cursor-pointer transform scale-95 hover:scale-105 transition-all duration-300 ease-in-out"
+                                        onClick={() => navigate("my-profile")}
+                                    >
+                                        My Profile
+                                    </p>
+                                    <p
+                                        className="hover:text-black cursor-pointer transform scale-95 hover:scale-105 transition-all duration-300 ease-in-out"
+                                        onClick={() => navigate("my-appointment")}
+                                    >
+                                        My Appointment
+                                    </p>
+                                    <p
+                                        className="hover:text-black cursor-pointer transform scale-95 hover:scale-105 transition-all duration-300 ease-in-out"
+                                        onClick={() => setToken(false)}
+                                    >
+                                        Logout
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    ) : (
+                        <button
+                            onClick={() => navigate("login")}
+                            className="bg-primary px-8 py-3 font-normal text-sm  text-white rounded-full"
+                        >
+                            Create Account
+                        </button>
+                    )}
                 </div>
             </div>
         </>
