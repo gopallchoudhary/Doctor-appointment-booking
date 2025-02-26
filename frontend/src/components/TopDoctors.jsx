@@ -27,8 +27,8 @@ const TopDoctors = () => {
                     ))
                 }
             </div>
-            <p onClick={() => navigate("doctors")} className='bg-blue-50 px-12  py-2 rounded-full text-gray-600 hover:cursor-pointer mt-10'>more</p>
-        </div>
+            <button onClick={() => { navigate("doctors"); scrollTo(0, 0) }} className='bg-blue-50 px-12  py-2 rounded-full text-gray-600 before:absolute before:inset-0 before:bg-blue-100 before:scale-x-0 before:origin-center before:transition-transform before:duration-500 hover:before:scale-x-100 mt-10 relative overflow-hidden'><span className='relative z-10'>more</span></button>
+        </div >
     )
 }
 

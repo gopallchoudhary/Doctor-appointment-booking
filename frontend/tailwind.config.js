@@ -6,6 +6,9 @@ export default {
       colors: {
         primary: "#5f6FFF",
       },
+      fontFamily: {
+        outfit: ["Outfit", "serif"]
+      },
     },
   },
   plugins: [],

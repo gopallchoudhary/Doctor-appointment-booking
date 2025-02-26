@@ -11,25 +11,25 @@ const Navbar = () => {
     return (
         <>
             <div className="flex items-center justify-between text-sm py-4 border-b mb-5 border-b-gray-400">
-                <img className="w-44 cursor-pointer" src={assets.logo} alt="" />
+                <img onClick={() => navigate("/")} className="w-44 cursor-pointer" src={assets.logo} alt="" />
 
                 {/* navbar lists */}
                 <ul className="hidden md:flex font-medium items-center justify-between gap-6">
-                    <NavLink to="/">
+                    <NavLink className={`relative group`} to="/">
                         <li className="py-1">HOME</li>
-                        <hr className="outline-none border-none m-auto w-3/4 h-0.5 bg-primary hidden" />
+                        <hr className="outline-none border-none m-auto w-3/4 h-0.5 bg-primary scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
                     </NavLink>
-                    <NavLink to="/doctors">
+                    <NavLink className={`relative group`} to="/doctors">
                         <li className="py-1">ALL DOCTORS</li>
-                        <hr className="outline-none border-none mx-auto w-3/4 h-0.5 bg-primary hidden " />
+                        <hr className="outline-none border-none mx-auto w-3/4 h-0.5 bg-primary scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
                     </NavLink>
-                    <NavLink to="/about">
+                    <NavLink className={`relative group`} to="/about">
                         <li className="py-1">ABOUT</li>
-                        <hr className="outline-none border-none m-auto w-3/4 h-0.5 bg-primary hidden" />
+                        <hr className="outline-none border-none m-auto w-3/4 h-0.5 bg-primary scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
                     </NavLink>
-                    <NavLink to="/contact">
+                    <NavLink className={`relative group`} to="/contact">
                         <li className="py-1">CONTACT</li>
-                        <hr className="outline-none border-none w-3/4 h-0.5 bg-primary hidden" />
+                        <hr className="outline-none border-none w-3/4 h-0.5 bg-primary scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
                     </NavLink>
                     <div className="font-semibold text-xs py-1 border rounded-full">
                         <button className="mx-4">Admin Panel</button>
