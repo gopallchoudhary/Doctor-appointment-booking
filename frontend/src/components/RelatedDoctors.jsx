@@ -1,17 +1,24 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
+import DoctorContextProvider, { DoctorContext } from '../context/DoctorsContext'
 import { useNavigate } from 'react-router-dom'
-import { DoctorContext } from '../context/DoctorsContext'
 
-const TopDoctors = () => {
-    const navigate = useNavigate()
+const RelatedDoctors = ({ docId, speciality }) => {
     const { doctors } = useContext(DoctorContext)
+    const [relatedDoctors, setRelatedDoctors] = useState([])
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        const relatedDoctors = doctors.filter((doc) => doc.speciality === speciality && doc._id !== docId)
+        setRelatedDoctors(relatedDoctors)
+    }, [doctors, docId, speciality])
     return (
+
         <div className='flex flex-col items-center gap-4 my-16 text-gray-900 md:mx-10'>
             <h1 className='text-3xl font-medium'>Top Doctors to Book</h1>
             <p className='text-center text-md sm:w-1/2'>Simply browse through our extensive list of trusted doctors.</p>
             <div className='w-auto flex flex-wrap gap-4 gap-y-6 sm:px-0'>
                 {
-                    doctors.slice(0, 10).map((item, index) => (
+                    relatedDoctors.slice(0, 5).map((item, index) => (
                         <div onClick={() => { navigate(`/appointment/${item._id}`); scrollTo(0, 0) }} key={index} className='border border-blue-200 rounded-xl overflow-hidden hover:translate-y-[-10px] transition-all duration-500 ease-in-out mx-auto hover:cursor-pointer w-[216px]'>
                             <img className=' bg-blue-50' src={item.image} alt="" />
                             <div className='p-4'>
@@ -32,4 +39,4 @@ const TopDoctors = () => {
     )
 }
 
-export default TopDoctors
+export default RelatedDoctors

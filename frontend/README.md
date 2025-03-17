@@ -15,3 +15,4 @@ Tailwind CSS (Styling)
 Axios (API calls)
 React Hook Form & Yup (Form validation)
 JWT (Authentication)
+
