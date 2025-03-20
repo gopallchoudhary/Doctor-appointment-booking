@@ -7,7 +7,7 @@ const Doctors = () => {
   const { doctors } = useContext(DoctorContext);
   const navigate = useNavigate();
   const [filteredDoctor, setFilteredDoctor] = useState([]);
-
+  const [showFilter, setShowFilter] = useState(false);
 
   const applyFilter = () => {
     if (speciality) {
@@ -41,22 +41,35 @@ const Doctors = () => {
     <div>
       <p className="text-gray-600">Browse through the doctors specialist.</p>
       <div className=" flex flex-col sm:flex-row items-start mt-5 gap-5">
-        <div className=" flex flex-col text-sm gap-4 whitespace-nowrap">
+        <button
+          className={`border px-3 py-1 rounded text-sm transition-all duration-200 sm:hidden ${showFilter ? 'bg-primary text-white' : ''}`}
+          onClick={() => setShowFilter((prev) => !prev)}
+        >
+          Filters
+        </button>
+
+        {/* Filters */}
+        <div className={`flex-col text-sm gap-4 whitespace-nowrap ${showFilter ? 'flex' : 'hidden sm:flex'}`}>
           {uniqueData.map((doc, index) => (
             <p
-              onClick={() => speciality?.trim("") === doc.speciality?.trim("")
-                ? navigate("/doctors")
-                : navigate(`/doctors/${doc.speciality}`)
+              onClick={() =>
+                speciality?.trim("") === doc.speciality?.trim("")
+                  ? navigate("/doctors")
+                  : navigate(`/doctors/${doc.speciality}`)
               }
               className={`w-[94vw] sm:w-auto border border-gray-300 py-1.5 pl-3.5 pr-16 text-gray-600 hover:cursor-pointer rounded transition-all ${speciality === doc.speciality
-                ? "bg-indigo-100 text-black" : ""}`}
+                ? "bg-indigo-100 text-black"
+                : ""
+                }`}
               key={index}
             >
               {doc.speciality}
             </p>
           ))}
         </div>
-        <div className="w-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4  gap-y-6 ml-auto">
+
+        {/* Doctors List */}
+        <div className="w-auto grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4  gap-y-6 ml-auto">
           {filteredDoctor.map((item, index) => (
             <div
               onClick={() => navigate(`/appointment/${item._id}`)}

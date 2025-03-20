@@ -7,11 +7,15 @@ const Navbar = () => {
     const [showMenu, setShowMenu] = useState(false);
     const [token, setToken] = useState(true);
 
-
     return (
         <>
             <div className="flex items-center justify-between text-sm py-4 border-b mb-5 border-b-gray-400">
-                <img onClick={() => navigate("/")} className="w-44 cursor-pointer" src={assets.logo} alt="" />
+                <img
+                    onClick={() => navigate("/")}
+                    className="w-44 cursor-pointer"
+                    src={assets.logo}
+                    alt=""
+                />
 
                 {/* navbar lists */}
                 <ul className="hidden md:flex font-medium items-center justify-between gap-6">
@@ -75,6 +79,71 @@ const Navbar = () => {
                             Create Account
                         </button>
                     )}
+
+                    <img
+                        onClick={() => setShowMenu(true)}
+                        src={assets.menu_icon}
+                        className="w-6 md:hidden"
+                        alt=""
+                    />
+
+                    {/* Mobile Menu */}
+                    <div
+                        className={`${showMenu ? "fixed w-full" : "w-0 h-0"
+                            } bg-white top-0 bottom-0 right-0 transition-all duration-300 overflow-hidden z-20 `}
+                    >
+                        <div className="flex justify-between px-5 py-6 items-center">
+                            <img src={assets.logo} className="w-36" alt="" />
+                            <img
+                                onClick={() => setShowMenu(false)}
+                                src={assets.cross_icon}
+                                className="w-7"
+                                alt=""
+                            />
+                        </div>
+
+                        <ul className="flex flex-col items-center gap-5 mt-5 px-5 text-lg font-medium">
+                            <NavLink
+                                className={({ isActive }) =>
+                                    `${isActive ? "bg-primary text-white px-4 py-2 rounded" : ""}`
+                                }
+                                onClick={() => setShowMenu(false)}
+                                to="/"
+                            >
+                                HOME
+                            </NavLink>
+
+                            <NavLink
+                                className={({ isActive }) =>
+                                    `${isActive ? "bg-primary text-white px-4 py-2 rounded" : ""}`
+                                }
+                                onClick={() => setShowMenu(false)}
+                                to="/doctors"
+                            >
+                                ALL DOCTORS
+                            </NavLink>
+
+                            <NavLink
+                                className={({ isActive }) =>
+                                    `${isActive ? "bg-primary text-white px-4 py-2 rounded" : ""}`
+                                }
+                                onClick={() => setShowMenu(false)}
+                                to="/about"
+                            >
+                                ABOUT
+                            </NavLink>
+
+                            <NavLink
+                                className={({ isActive }) =>
+                                    `${isActive ? "bg-primary text-white px-4 py-2 rounded" : ""}`
+                                }
+                                onClick={() => setShowMenu(false)}
+                                to="/contact"
+                            >
+                                CONTACT
+                            </NavLink>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </>
