@@ -6,7 +6,7 @@ import 'react-toastify/ReactToastify.css'
 import { AdminContext } from './contexts/AdminContext';
 import Navbar from './components/Navbar';
 import Sidebar from './components/Sidebar';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom'; 
 import Dashboard from './pages/Admin/Dashboard';
 import Appointments from './pages/Admin/AllAppointments';
 import AddDoctors from './pages/Admin/AddDoctors';

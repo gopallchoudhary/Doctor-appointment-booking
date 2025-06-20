@@ -3,7 +3,7 @@ import { v2 as cloudinary } from 'cloudinary'
 import { DoctorModel } from '../models/doctor.model.js'
 import jwt from 'jsonwebtoken'
 
-//# API FOR ADDING DOCTOR   
+//. API FOR ADDING DOCTOR  
 const addDoctor = async (req, res) => {
     try {
         const { name, email, password, speciality, degree, experience, about, fees, address } = req.body
@@ -14,27 +14,27 @@ const addDoctor = async (req, res) => {
         }
 
 
-        //! all fields are required
+        //> all fields are required
         if ([name, email, password, speciality, degree, experience, about, fees, address].some((field) => field?.toString().trim() === "")) {
             return res.json({ success: false, message: "All fields are required" })
         }
 
-        //! validating email
+        //> validating email
         if (!validator.isEmail(email)) {
             return res.json({ success: false, message: "Enter valid email" })
         }
 
-        //! validating password
+        //> validating password
         if (password.length < 8) {
             return res.json({ success: false, message: "Enter strong password" })
         }
 
-        //! upload image to cloudinary 
+        
         const uploadImage = await cloudinary.uploader.upload(imageFile.path, { resource_type: "image" })
         const imageURL = uploadImage.secure_url
 
 
-        //! checking exister doctor
+        //> checking exister doctor
         const existedDoctor = await DoctorModel.findOne({ email })
         if (existedDoctor) {
             return res.json({ success: false, message: "Doctor already existed" })
@@ -70,7 +70,7 @@ const addDoctor = async (req, res) => {
     }
 }
 
-//# ADMIN LOGIN
+
 const adminLogin = async (req, res) => {
     try {
         const { email, password } = req.body
