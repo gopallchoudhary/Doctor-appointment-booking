@@ -1,11 +1,21 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { assets } from "../assets/assets.js";
 import { NavLink, useNavigate } from "react-router-dom";
+import { DoctorContext } from "../context/DoctorsContext.jsx";
+import axios from "axios";
 
 const Navbar = () => {
     const navigate = useNavigate();
     const [showMenu, setShowMenu] = useState(false);
-    const [token, setToken] = useState(true);
+    const {token, setToken, backendUrl} = useContext(DoctorContext)
+
+    const logout = async () => {
+        localStorage.removeItem("userToken")
+        setToken(false)
+        const {data} = await axios.get(`${backendUrl}/api/user/logout`, {withCredentials: true})
+        console.log(data?.message);
+        
+    }
 
     return (
         <>
@@ -64,7 +74,7 @@ const Navbar = () => {
                                     </p>
                                     <p
                                         className="hover:text-black cursor-pointer transform scale-95 hover:scale-105 transition-all duration-300 ease-in-out"
-                                        onClick={() => setToken(false)}
+                                        onClick={logout}
                                     >
                                         Logout
                                     </p>

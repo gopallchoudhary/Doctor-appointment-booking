@@ -40,7 +40,7 @@ const Doctors = () => {
   return (
     <div>
       <p className="text-gray-600">Browse through the doctors specialist.</p>
-      <div className=" flex flex-col sm:flex-row items-start mt-5 gap-5">
+      <div className="flex flex-col sm:flex-row items-start mt-5 gap-5">
         <button
           className={`border px-3 py-1 rounded text-sm transition-all duration-200 sm:hidden ${showFilter ? 'bg-primary text-white' : ''}`}
           onClick={() => setShowFilter((prev) => !prev)}
@@ -49,7 +49,7 @@ const Doctors = () => {
         </button>
 
         {/* Filters */}
-        <div className={`flex-col text-sm gap-4 whitespace-nowrap ${showFilter ? 'flex' : 'hidden sm:flex'}`}>
+        <div className={`flex-col text-sm gap-4 whitespace-nowrap  ${showFilter ? 'flex' : 'hidden sm:flex'}`}>
           {uniqueData.map((doc, index) => (
             <p
               onClick={() =>
@@ -57,7 +57,7 @@ const Doctors = () => {
                   ? navigate("/doctors")
                   : navigate(`/doctors/${doc.speciality}`)
               }
-              className={`w-[94vw] sm:w-auto border border-gray-300 py-1.5 pl-3.5 pr-16 text-gray-600 hover:cursor-pointer rounded transition-all ${speciality === doc.speciality
+              className={`w-[94vw] sm:w-auto border border-gray-300 py-1.5 pl-3.5 pr-16 text-gray-600 hover:cursor-pointer rounded transition-all hover:translate-y-[-5px] hover:py-3 duration-200 ease-in-out ${speciality === doc.speciality
                 ? "bg-indigo-100 text-black"
                 : ""
                 }`}
@@ -76,7 +76,7 @@ const Doctors = () => {
               key={index}
               className="border border-blue-200 rounded-xl overflow-hidden hover:translate-y-[-10px] transition-all duration-500 ease-in-out mx-auto hover:cursor-pointer"
             >
-              <img className=" bg-blue-50" src={item.image} alt="" />
+              <img className=" bg-blue-50 hover:bg-primary duration-500 transition-all" src={item.image} alt="" />
               <div className="p-4">
                 <div className="flex items-center text-center gap-2 text-green-500">
                   <p className="w-2 h-2 bg-green-500 rounded-full"></p>{" "}

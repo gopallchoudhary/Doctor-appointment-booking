@@ -1,16 +1,55 @@
-import React, { useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
+import { DoctorContext } from '../context/DoctorsContext'
+import axios from 'axios'
+import { toast } from 'react-toastify'
+import { useNavigate } from 'react-router-dom'
+
 
 const Login = () => {
   const [state, setState] = useState("Sign up")
-
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const { backendUrl, token, setToken } = useContext(DoctorContext)
+  const navigate = useNavigate()
 
-  const submintHandler = (e) => {
+  const submintHandler = async (e) => {
     e.preventDefault()
 
+    try {
+
+      if (state === "Sign up") {
+        const { data } = await axios.post(`${backendUrl}/api/user/signup`, { name, email, password })
+        alert(data.message)
+      } else {
+        const { data } = await axios.post(`${backendUrl}/api/user/signin`, { email, password }, { withCredentials: true })
+
+        if (data.success) {
+          localStorage.setItem("userToken", data?.userToken)
+          setToken(data?.userToken)
+          console.log(token);
+          toast.success(data.message)
+        } else {
+          toast.error(data.message)
+        }
+
+      }
+    } catch (error) {
+      toast.error(error.message)
+    }
+
+
+
+    // setName("")
+    // setEmail("")
+    // setPassword("")
   }
+
+  useEffect(() => {
+    if (token) {
+      navigate("/")
+    }
+  }, [token])
 
   return (
     <form onSubmit={submintHandler} className='min-h-[80vh] flex items-center'>
@@ -36,7 +75,7 @@ const Login = () => {
           <input className='w-full border border-zinc-300 p-2 mt-1 rounded-md' type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
         </div>
 
-        <button className='bg-primary text-white rounded-md  py-2 my-2 text-base w-full'>{state === "Sign up" ? "Create Account" : "Login"}</button>
+        <button type='submit' className='bg-primary text-white rounded-md  py-2 my-2 text-base w-full'>{state === "Sign up" ? "Create Account" : "Login"}</button>
 
         {
           state === "Sign up"

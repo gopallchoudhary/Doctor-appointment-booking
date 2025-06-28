@@ -29,7 +29,7 @@ const addDoctor = async (req, res) => {
             return res.json({ success: false, message: "Enter strong password" })
         }
 
-        
+
         const uploadImage = await cloudinary.uploader.upload(imageFile.path, { resource_type: "image" })
         const imageURL = uploadImage.secure_url
 
@@ -71,6 +71,7 @@ const addDoctor = async (req, res) => {
 }
 
 
+//. admin login 
 const adminLogin = async (req, res) => {
     try {
         const { email, password } = req.body
@@ -106,6 +107,16 @@ const adminLogin = async (req, res) => {
 
 }
 
+//. Get all doctors 
+const getAllDoctors = async (req, res) => {
+    try {
+        const doctors = await DoctorModel.find({}).select("-password")
+        res.json({success: true, message: "Doctor details fetched successfully", doctors})
+    } catch (error) {
+        console.log(error.message);
+        res.json({success: false, error: error.message})
+    }
+}
 
 
-export { addDoctor, adminLogin }
+export { addDoctor, adminLogin, getAllDoctors}
