@@ -115,9 +115,7 @@ const getUserProfile = async (req, res) => {
 //, update user profile 
 const updateUserProfile = async (req, res) => {
     try {
-        const userId = req.user?._id
-        console.log(req.user);
-        
+        const userId = req.user?._id                                  
         const { name, dob, phone, address, gender } = req.body
         const imageFile = req.file
 

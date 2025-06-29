@@ -7,14 +7,14 @@ import axios from "axios";
 const Navbar = () => {
     const navigate = useNavigate();
     const [showMenu, setShowMenu] = useState(false);
-    const {token, setToken, backendUrl} = useContext(DoctorContext)
+    const { token, setToken, backendUrl, userData } = useContext(DoctorContext)
 
     const logout = async () => {
         localStorage.removeItem("userToken")
         setToken(false)
-        const {data} = await axios.get(`${backendUrl}/api/user/logout`, {withCredentials: true})
+        const { data } = await axios.get(`${backendUrl}/api/user/logout`, { withCredentials: true })
         console.log(data?.message);
-        
+
     }
 
     return (
@@ -53,8 +53,8 @@ const Navbar = () => {
                     {token ? (
                         <div className="flex items-center gap-2 cursor-pointer  group relative">
                             <img
-                                className="w-8 rounded-full"
-                                src={assets.profile_pic}
+                                className="w-10 aspect-square object-cover rounded-full"
+                                src={userData.image}
                                 alt=""
                             />
                             <img className="w-2.5" src={assets.dropdown_icon} alt="" />

@@ -10,6 +10,6 @@ userRouter.post("/signup", registerUser)
 userRouter.post("/signin", loginUser)
 userRouter.get("/logout", logoutUser)
 userRouter.get("/get-profile", authUser, getUserProfile)
-userRouter.post("/update-profile", authUser, upload.single('image'), updateUserProfile )
+userRouter.post("/update-profile", authUser, upload.single("image"), updateUserProfile )
 
 export default userRouter
