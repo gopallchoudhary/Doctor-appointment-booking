@@ -58,7 +58,8 @@ const DoctorContextProvider = ({ children }) => {
         token, setToken,
         backendUrl,
         userData, setUserData,
-        loadUserProfileData
+        loadUserProfileData,
+        getDoctorsData
     }
 
     useEffect(() => {

@@ -50,7 +50,7 @@ const Navbar = () => {
                     </div>
                 </ul>
                 <div className="flex items-center gap-4">
-                    {token ? (
+                    {token && userData ? (
                         <div className="flex items-center gap-2 cursor-pointer  group relative">
                             <img
                                 className="w-10 aspect-square object-cover rounded-full"
@@ -68,7 +68,7 @@ const Navbar = () => {
                                     </p>
                                     <p
                                         className="hover:text-black cursor-pointer transform scale-95 hover:scale-105 transition-all duration-300 ease-in-out"
-                                        onClick={() => navigate("my-appointment")}
+                                        onClick={() => navigate("my-appointments")}
                                     >
                                         My Appointment
                                     </p>
