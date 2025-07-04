@@ -85,7 +85,7 @@ const Appointment = () => {
 
 
 
-    } //! end of loop
+    } // end of loop
 
   } //> end of slots function
 
