@@ -5,6 +5,7 @@ import { UserModel } from '../models/user.model.js'
 import { v2 as cloudinary } from 'cloudinary'
 import { AppointmentModel } from '../models/appointment.model.js'
 import { DoctorModel } from '../models/doctor.model.js'
+import razorpay from 'razorpay'
 
 //, register user 
 const registerUser = async (req, res) => {
@@ -173,7 +174,7 @@ const bookAppointment = async (req, res) => {
         //> user data
         const userData = await UserModel.findById(userId).select('-password')
 
-        //> deleting slots_booked from docData varialbe
+        //> deleting slots_booked from docData variabe
         delete docData.slots_booked
 
         const appointmentData = {
@@ -223,33 +224,70 @@ const cancelAppointment = async (req, res) => {
         const { appointmentId } = req.body
         const userId = req.user._id
 
+        //> appointment data
         const appointmentData = await AppointmentModel.findById(appointmentId)
 
-        // verify user
+        //> verify user 
         if (appointmentData.userId != userId) {
-            return res.json({ success: false, message: "Unauthorized action" })
+            return res.json({ success: false, message: "Unauthorized" })
         }
 
-        // change cancelled boolean
-        await AppointmentModel.findByIdAndUpdate(appointmentId, { cancelled: false })
+        //> cancelled: true
+        await AppointmentModel.findByIdAndUpdate(appointmentData, { cancelled: true })
 
+        //> get datas
         const { docId, slotDate, slotTime } = appointmentData
-        const doctorData = await DoctorModel.findById(docId)
-        console.log(doctorData);
-        
 
-        let slots_booked = doctorData.slots_booked
+        //> doctor data
+        const docData = await DoctorModel.findById(docId)
 
-        //> modify slots
-        slots_booked[slotDate] = slots_booked[slotDate].filter((e) => e !== slotTime)
+        //> modifying slots_booked
+        const slots_booked = docData.slots_booked
+        slots_booked[slotDate] = slots_booked[slotDate].filter((e) => e != slotTime)
 
+        //> update in doctor data
         await DoctorModel.findByIdAndUpdate(docId, { slots_booked })
 
         res.json({ success: true, message: "Appointment cancelled" })
+
+
     } catch (error) {
-        console.log(error);
-        res.json({ success: false, message: "unable to cancel appointment" })
+        console.error(error);
+        res.json({ success: false, message: "Failed to cancel the appointment" })
     }
 }
 
-export { registerUser, loginUser, logoutUser, getUserProfile, updateUserProfile, bookAppointment, listAppointments, cancelAppointment }
+//, razorpay payments 
+const razorpayInstance = new razorpay({
+    key_id: process.env.RAZORPAY_KEY_ID,
+    key_secret: process.env.RAZORPAY_SECRET_ID,
+})
+
+const paymentsRazorpay = async (req, res) => {
+    try {
+        const { appointmentId } = req.body
+        const appointmentData = await AppointmentModel.findById(appointmentId)
+
+        //> check appnt data
+        if (!appointmentData || appointmentData.cancelled) {
+            return res.json({ success: false, message: "Payment failed" })
+        }
+
+        //>  razpay options
+        const options = {
+            amount: appointmentData.amount * 100,
+            currency: process.env.CURRENCY,
+            receipt: appointmentId
+        }
+
+        //> creation of an order
+        const order = await razorpayInstance.orders.create(options)
+        res.json({ success: true, messaage: "Payment successfully" })
+
+    } catch (error) {
+        console.error("Payment failed", error.message);
+        res.json({ success: false, message: "Payment failed" })
+    }
+}
+
+export { registerUser, loginUser, logoutUser, getUserProfile, updateUserProfile, bookAppointment, listAppointments, cancelAppointment, paymentsRazorpay }
