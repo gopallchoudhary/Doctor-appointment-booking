@@ -5,9 +5,13 @@ import { UserModel } from '../models/user.model.js'
 import { v2 as cloudinary } from 'cloudinary'
 import { AppointmentModel } from '../models/appointment.model.js'
 import { DoctorModel } from '../models/doctor.model.js'
-import razorpay from 'razorpay'
+import dotenv from 'dotenv'
+import Razorpay from 'razorpay'
+dotenv.config();
 
-//, register user 
+
+
+//. register user 
 const registerUser = async (req, res) => {
     try {
         const { name, email, password } = req.body
@@ -54,7 +58,7 @@ const registerUser = async (req, res) => {
     }
 }
 
-//, login user 
+//. login user 
 const loginUser = async (req, res) => {
     try {
         const { email, password } = req.body
@@ -90,14 +94,14 @@ const loginUser = async (req, res) => {
     }
 }
 
-//, logout user 
+//. logout user 
 const logoutUser = async (req, res) => {
     return res
         .clearCookie("userToken")
         .json({ success: true, message: "user logged out" })
 }
 
-//, get user profile 
+//. get user profile 
 const getUserProfile = async (req, res) => {
     try {
         const user = req.user
@@ -115,7 +119,7 @@ const getUserProfile = async (req, res) => {
     }
 }
 
-//, update user profile 
+//. update user profile 
 const updateUserProfile = async (req, res) => {
     try {
         const userId = req.user?._id
@@ -143,7 +147,7 @@ const updateUserProfile = async (req, res) => {
     }
 }
 
-//, book appointment 
+//. book appointment 
 const bookAppointment = async (req, res) => {
     try {
         const { docId, slotDate, slotTime } = req.body
@@ -205,7 +209,7 @@ const bookAppointment = async (req, res) => {
     }
 }
 
-//, list appointments 
+//. list appointments 
 const listAppointments = async (req, res) => {
     try {
         const userId = req.user._id
@@ -218,7 +222,7 @@ const listAppointments = async (req, res) => {
     }
 }
 
-//, cancel appointments 
+//. cancel appointments 
 const cancelAppointment = async (req, res) => {
     try {
         const { appointmentId } = req.body
@@ -257,37 +261,61 @@ const cancelAppointment = async (req, res) => {
     }
 }
 
-//, razorpay payments 
-const razorpayInstance = new razorpay({
+//. razorpay payments 
+const  razorpayInstance = new Razorpay({
     key_id: process.env.RAZORPAY_KEY_ID,
-    key_secret: process.env.RAZORPAY_SECRET_ID,
+    key_secret: process.env.RAZORPAY_KEY_SECRET
 })
 
-const paymentsRazorpay = async (req, res) => {
+const paymentRazorpay = async (req, res) => {
     try {
         const { appointmentId } = req.body
+        //> appointment Data
         const appointmentData = await AppointmentModel.findById(appointmentId)
 
-        //> check appnt data
         if (!appointmentData || appointmentData.cancelled) {
-            return res.json({ success: false, message: "Payment failed" })
+            return res.json({ success: false, message: "appointment cancelled or not found" })
         }
 
-        //>  razpay options
+        //> razorpay options
         const options = {
             amount: appointmentData.amount * 100,
             currency: process.env.CURRENCY,
             receipt: appointmentId
         }
 
-        //> creation of an order
+        //> order/payment
         const order = await razorpayInstance.orders.create(options)
-        res.json({ success: true, messaage: "Payment successfully" })
+
+        res.json({ success: true, message: "Payment successfull", order })
+
 
     } catch (error) {
-        console.error("Payment failed", error.message);
-        res.json({ success: false, message: "Payment failed" })
+        console.log("Paymet failed", error);
+        res.json({ success: true, message: "payment failed" })
     }
 }
 
-export { registerUser, loginUser, logoutUser, getUserProfile, updateUserProfile, bookAppointment, listAppointments, cancelAppointment, paymentsRazorpay }
+//. api for verify razorpay 
+const verifyRazorpay = async (req, res) => {
+    try {
+        const {razorpay_order_id} = req.body
+        const orderInfo = await razorpayInstance.orders.fetch(razorpay_order_id)
+        console.log(orderInfo);
+        if(orderInfo.status == "paid") {
+            const appointmentId = orderInfo.receipt
+            await AppointmentModel.findByIdAndUpdate(appointmentId, {payment: true})
+            res.json({success: true, message: "Payment successfull"})
+        } else {
+            res.json({success: false, message: "Payment failed"})
+        }
+    } catch (error) {
+        console.error(error);
+        res.json(
+            {success: false, message: error.message}
+        )
+    }
+}
+
+
+export { registerUser, loginUser, logoutUser, getUserProfile, updateUserProfile, bookAppointment, listAppointments, cancelAppointment, paymentRazorpay, verifyRazorpay }

@@ -4,8 +4,11 @@ import connectDB from "./db/db.js";
 import connectCloudinary from "./utils/cloudinary.js";
 
 dotenv.config({
-    path: "./.env",
+    path: "./.env"
 });
+
+
+
 
 const PORT = 3001;
 
@@ -19,4 +22,4 @@ connectDB()
         console.log("MongoDB connection error: ", err);
     });
 
-    connectCloudinary()
+connectCloudinary()
