@@ -2,6 +2,8 @@ import validator from 'validator'
 import { v2 as cloudinary } from 'cloudinary'
 import { DoctorModel } from '../models/doctor.model.js'
 import jwt from 'jsonwebtoken'
+import { AppointmentModel } from '../models/appointment.model.js'
+import { UserModel } from '../models/user.model.js'
 
 //. API FOR ADDING DOCTOR  
 const addDoctor = async (req, res) => {
@@ -87,12 +89,13 @@ const adminLogin = async (req, res) => {
             const options = {
                 httpOnly: true,
                 secure: true,
+                sameSite: "None", 
+                path: "/"
             };
 
             return res
                 .status(200)
                 .cookie("adminToken", adminToken, options)
-                .setHeader("adminToken", adminToken)
                 .json({ success: true, message: "Admin logged in successfully", adminToken: adminToken })
 
         } else {
@@ -107,16 +110,90 @@ const adminLogin = async (req, res) => {
 
 }
 
+//. admin logout 
+const adminLogout = async (req, res) => {
+    return res
+        .clearCookie("adminToken")
+        .json({success: true, message: "Admin logged out successfully"})
+}
+
 //. Get all doctors 
 const getAllDoctors = async (req, res) => {
     try {
         const doctors = await DoctorModel.find({}).select("-password")
-        res.json({success: true, message: "Doctor details fetched successfully", doctors})
+        res.json({ success: true, message: "Doctor details fetched successfully", doctors })
     } catch (error) {
         console.log(error.message);
-        res.json({success: false, error: error.message})
+        res.json({ success: false, error: error.message })
+    }
+}
+
+//. Get all appointments
+const appointmentsAdmin = async (req, res) => {
+    try {
+        const appointments = await AppointmentModel.find({})
+        console.log(appointments);
+        res.json({ success: true, message: "Appointments data fetched successfully", appointments })
+    } catch (error) {
+        console.error(error.message);
+        res.json({ success: false, message: "Error in fetching appointment data" })
+    }
+}
+
+//. cancel appointments 
+const cancelAppointment = async (req, res) => {
+    try {
+        const { appointmentId } = req.body
+
+        //> appointment data
+        const appointmentData = await AppointmentModel.findById(appointmentId)
+
+        //> cancelled: true
+        await AppointmentModel.findByIdAndUpdate(appointmentId, { cancelled: true })
+
+        //> get datas
+        const { docId, slotDate, slotTime } = appointmentData
+
+        //> doctor data
+        const docData = await DoctorModel.findById(docId)
+
+        //> modifying slots_booked
+        const slots_booked = docData.slots_booked
+        slots_booked[slotDate] = slots_booked[slotDate].filter((e) => e != slotTime)
+
+        //> update in doctor data
+        await DoctorModel.findByIdAndUpdate(docId, { slots_booked })
+
+        res.json({ success: true, message: "Appointment cancelled" })
+
+
+    } catch (error) {
+        console.error(error);
+        res.json({ success: false, message: "Failed to cancel the appointment" })
+    }
+}
+
+//. api to get dashboard data for admin panel 
+
+const adminDashboard = async (req, res) => {
+    try {
+        const doctors = await DoctorModel.find({})
+        const users = await UserModel.find({})
+        const appointments = await AppointmentModel.find({})
+
+        const dashData = {
+            doctors: doctors.length,
+            patients: users.length,
+            appointments: appointments.length,
+            latestAppointments: appointments.reverse().slice(0, 5)
+        }
+
+        res.json({ success: true, message: "dashboard data fetched successfully", dashData })
+    } catch (error) {
+        console.error(error);
+        res.json({ success: false, message: error.message })
     }
 }
 
 
-export { addDoctor, adminLogin, getAllDoctors}
+export { addDoctor, adminLogin, getAllDoctors, appointmentsAdmin, cancelAppointment, adminDashboard, adminLogout }

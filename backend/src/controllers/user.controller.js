@@ -80,9 +80,16 @@ const loginUser = async (req, res) => {
             email: user.email
         }, process.env.USER_TOKEN_SECRET)
 
+        const options = {
+                httpOnly: true,
+                secure: true,
+                sameSite: "None", 
+                path: "/"
+            };
+
         res
             .status(200)
-            .cookie("userToken", userToken)
+            .cookie("userToken", userToken, options)
             .json({ success: true, message: "user logged in successfully", userToken })
 
 
@@ -237,7 +244,7 @@ const cancelAppointment = async (req, res) => {
         }
 
         //> cancelled: true
-        await AppointmentModel.findByIdAndUpdate(appointmentData, { cancelled: true })
+        await AppointmentModel.findByIdAndUpdate(appointmentId, { cancelled: true })
 
         //> get datas
         const { docId, slotDate, slotTime } = appointmentData
