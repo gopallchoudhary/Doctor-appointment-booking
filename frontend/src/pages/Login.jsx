@@ -25,7 +25,6 @@ const Login = () => {
         const { data } = await axios.post(`${backendUrl}/api/user/signin`, { email, password }, { withCredentials: true })
 
         if (data.success) {
-          localStorage.setItem("userToken", data?.userToken)
           setToken(data?.userToken)
           toast.success(data.message)
         } else {
