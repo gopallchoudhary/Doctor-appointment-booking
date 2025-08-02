@@ -11,6 +11,7 @@ import Dashboard from './pages/Admin/Dashboard';
 import Appointments from './pages/Admin/AllAppointments';
 import AddDoctors from './pages/Admin/AddDoctors';
 import DoctorsList from './pages/Admin/DoctorsList';
+import Home from './pages/Admin/Home';
 
 function App() {
 
@@ -23,6 +24,7 @@ function App() {
       <div className='flex items-start'>
         <Sidebar />
         <Routes>
+          <Route path='/' element={<Home />} />
           <Route path='/admin-dashboard' element={<Dashboard />} />
           <Route path='/all-appointments' element={<Appointments />} />
           <Route path='/add-doctor' element={<AddDoctors />} />

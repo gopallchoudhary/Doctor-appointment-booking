@@ -2,15 +2,18 @@ import React, { useContext } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { assets } from '../assets/assets.js'
 import { AdminContext } from '../contexts/AdminContext'
+import Cookies from 'js-cookie'
+import axios from 'axios';
 
 const Navbar = () => {
-    const { adminToken, setAdminToken } = useContext(AdminContext)
+    const { adminToken, setAdminToken, backendUrl} = useContext(AdminContext)
     const navigate = useNavigate()
 
-    const logout = () => {
+    const logout = async () => {
         navigate('/')
         adminToken && setAdminToken('')
-        adminToken && localStorage.removeItem('adminToken')
+        await axios.get(`${backendUrl}/api/admin/logout`)
+
     }
     return (
         <div className='flex items-center justify-between px-4 sm:px-10 py-3 border-b bg-white'>
