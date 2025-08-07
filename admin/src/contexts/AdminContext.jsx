@@ -1,14 +1,11 @@
 import axios from "axios";
 import { createContext, useState } from "react";
 import { toast } from "react-toastify";
-import Cookies from 'js-cookie'
 
 export const AdminContext = createContext();
 
 const AdminContextProvider = ({ children }) => {
-    const [adminToken, setAdminToken] = useState(() => {
-        return Cookies.get("adminToken") || ""
-    });
+    const [adminToken, setAdminToken] = useState("");
     const backendUrl = import.meta.env.VITE_BACKEND_URL;
     const [doctors, setDoctors] = useState([])
     const [appointments, setAppointments] = useState([])

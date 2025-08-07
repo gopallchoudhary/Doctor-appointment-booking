@@ -4,15 +4,27 @@ import { assets } from '../assets/assets.js'
 import { AdminContext } from '../contexts/AdminContext'
 import Cookies from 'js-cookie'
 import axios from 'axios';
+import { DoctorContext } from '../contexts/DoctorContext.jsx';
 
 const Navbar = () => {
-    const { adminToken, setAdminToken, backendUrl} = useContext(AdminContext)
+    const { adminToken, setAdminToken, backendUrl } = useContext(AdminContext)
+    const { doctorToken, setDoctorToken } = useContext(DoctorContext)
     const navigate = useNavigate()
 
     const logout = async () => {
-        navigate('/')
-        adminToken && setAdminToken('')
-        await axios.get(`${backendUrl}/api/admin/logout`)
+        if (adminToken) {
+            await axios.get(`${backendUrl}/api/admin/logout`, { withCredentials: true })
+            adminToken && setAdminToken('')
+            navigate('/')
+            console.log("admin logged out");
+            
+        } else {
+            await axios.get(`${backendUrl}/api/doctor/logout`, { withCredentials: true })
+            doctorToken && setDoctorToken('')
+            navigate('/')
+            console.log("doctor logged out");
+            
+        }
 
     }
     return (
