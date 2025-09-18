@@ -74,9 +74,9 @@ const AdminContextProvider = ({ children }) => {
     //. admin dashboard 
     const getDashboardData = async () => {
         try {
-            const {data} = await axios.get(`${backendUrl}/api/admin/dashboard`, {withCredentials: true})
+            const { data } = await axios.get(`${backendUrl}/api/admin/dashboard`, { withCredentials: true })
 
-            if(data.success) {
+            if (data.success) {
                 setDashData(data.dashData)
                 console.log(data.dashData);
             } else {
@@ -97,9 +97,9 @@ const AdminContextProvider = ({ children }) => {
         getAllDoctors,
         changeAvailability,
         getAllAppointments,
-        appointments, setAppointments, 
+        appointments, setAppointments,
         cancelAppointment,
-        dashData, 
+        dashData,
         getDashboardData
     };
 

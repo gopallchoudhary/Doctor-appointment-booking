@@ -216,6 +216,31 @@ const doctorDashboard = async (req, res) => {
     }
 };
 
+//. doctor profile 
+const getDoctorProfile = async (req, res) => {
+    try {
+        const docId = req.doctor._id
+        const doctorProfileData = await DoctorModel.findById(docId).select("-password")
+        res.json({ success: true, message: "Dr. profile date fetched successfully", doctorProfileData })
+    } catch (error) {
+        console.error("Error: ", error.messaage);
+        res.json({ success: false, message: "Failed to get the doctor profile" })
+    }
+}
+
+//. update doctor profile 
+const updateDoctorProfile = async (req, res) => {
+    try {
+        const docId = req.doctor._id
+        const { fees, available, address} = req.body
+        const updateProfile = await DoctorModel.findByIdAndUpdate(docId, {fees, available, address})
+        res.json({success: true, message: "Doctor data updated successfully", updateProfile})
+    } catch (error) {
+        console.error("Error: ", error.messaage);
+        res.json({ success: false, message: "Failed to update the doctor profile" })
+    }
+}
+
 export {
     changeAvailability,
     doctorList,
@@ -225,4 +250,6 @@ export {
     appointmentCompleted,
     appointmentCancelled,
     doctorDashboard,
+    getDoctorProfile,   
+    updateDoctorProfile
 };
