@@ -7,15 +7,16 @@ import axios from "axios";
 const Navbar = () => {
     const navigate = useNavigate();
     const [showMenu, setShowMenu] = useState(false);
-    const { token, setToken, backendUrl, userData } = useContext(DoctorContext)
+    const { token, setToken, backendUrl, userData } = useContext(DoctorContext);
 
     const logout = async () => {
-        localStorage.removeItem("userToken")
-        setToken(false)
-        const { data } = await axios.get(`${backendUrl}/api/user/logout`, { withCredentials: true })
+        localStorage.removeItem("userToken");
+        setToken(false);
+        const { data } = await axios.get(`${backendUrl}/api/user/logout`, {
+            withCredentials: true,
+        });
         console.log(data?.message);
-
-    }
+    };
 
     return (
         <>
@@ -57,7 +58,11 @@ const Navbar = () => {
                                 src={userData.image}
                                 alt=""
                             />
-                            <img className="w-2.5" src={assets.dropdown_icon} alt="" />
+                            <img
+                                className="w-2.5"
+                                src={assets.dropdown_icon}
+                                alt=""
+                            />
                             <div className="absolute top-0 right-0 pt-14 z-20 text-gray-600 text-base font-medium hidden group-hover:block">
                                 <div className="bg-stone-100 min-w-48 rounded flex flex-col gap-2 p-4">
                                     <p
@@ -68,7 +73,9 @@ const Navbar = () => {
                                     </p>
                                     <p
                                         className="hover:text-black cursor-pointer  transform scale-95 hover:scale-105 transition-all duration-300 ease-in-out"
-                                        onClick={() => navigate("my-appointments")}
+                                        onClick={() =>
+                                            navigate("my-appointments")
+                                        }
                                     >
                                         My Appointment
                                     </p>
@@ -99,8 +106,9 @@ const Navbar = () => {
 
                     {/* Mobile Menu */}
                     <div
-                        className={`${showMenu ? "fixed w-full" : "w-0 h-0"
-                            } bg-white top-0 bottom-0 right-0 transition-all duration-300 overflow-hidden z-20 `}
+                        className={`${
+                            showMenu ? "fixed w-full" : "w-0 h-0"
+                        } bg-white top-0 bottom-0 right-0 transition-all duration-300 overflow-hidden z-20 `}
                     >
                         <div className="flex justify-between px-5 py-6 items-center">
                             <img src={assets.logo} className="w-36" alt="" />
@@ -115,7 +123,11 @@ const Navbar = () => {
                         <ul className="flex flex-col items-center gap-5 mt-5 px-5 text-lg font-medium">
                             <NavLink
                                 className={({ isActive }) =>
-                                    `${isActive ? "bg-primary text-white px-4 py-2 rounded" : ""}`
+                                    `${
+                                        isActive
+                                            ? "bg-primary text-white px-4 py-2 rounded"
+                                            : ""
+                                    }`
                                 }
                                 onClick={() => setShowMenu(false)}
                                 to="/"
@@ -125,7 +137,11 @@ const Navbar = () => {
 
                             <NavLink
                                 className={({ isActive }) =>
-                                    `${isActive ? "bg-primary text-white px-4 py-2 rounded" : ""}`
+                                    `${
+                                        isActive
+                                            ? "bg-primary text-white px-4 py-2 rounded"
+                                            : ""
+                                    }`
                                 }
                                 onClick={() => setShowMenu(false)}
                                 to="/doctors"
@@ -135,7 +151,11 @@ const Navbar = () => {
 
                             <NavLink
                                 className={({ isActive }) =>
-                                    `${isActive ? "bg-primary text-white px-4 py-2 rounded" : ""}`
+                                    `${
+                                        isActive
+                                            ? "bg-primary text-white px-4 py-2 rounded"
+                                            : ""
+                                    }`
                                 }
                                 onClick={() => setShowMenu(false)}
                                 to="/about"
@@ -145,7 +165,11 @@ const Navbar = () => {
 
                             <NavLink
                                 className={({ isActive }) =>
-                                    `${isActive ? "bg-primary text-white px-4 py-2 rounded" : ""}`
+                                    `${
+                                        isActive
+                                            ? "bg-primary text-white px-4 py-2 rounded"
+                                            : ""
+                                    }`
                                 }
                                 onClick={() => setShowMenu(false)}
                                 to="/contact"
