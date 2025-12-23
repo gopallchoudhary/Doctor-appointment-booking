@@ -3,7 +3,7 @@ import { upload } from '../middlewares/multer.js'
 const userRouter = express.Router()
 
 //> import controllers
-import { bookAppointment, cancelAppointment, getUserProfile, listAppointments, loginUser, logoutUser, registerUser, updateUserProfile,paymentRazorpay, verifyRazorpay } from '../controllers/user.controller.js'
+import { bookAppointment, cancelAppointment, getUserProfile, listAppointments, loginUser, logoutUser, registerUser, updateUserProfile, paymentRazorpay, verifyRazorpay } from '../controllers/user.controller.js'
 import { authUser } from '../middlewares/authUser.js'
 
 userRouter.post("/signup", registerUser)
