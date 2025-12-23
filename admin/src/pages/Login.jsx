@@ -4,6 +4,7 @@ import { AdminContext } from "../contexts/AdminContext.jsx";
 import axios from 'axios'
 import { toast } from "react-toastify";
 import { DoctorContext } from "../contexts/DoctorContext.jsx";
+import {useNavigate} from 'react-router-dom'
 
 const Login = () => {
   const [state, setState] = useState("Doctor");
@@ -12,6 +13,8 @@ const Login = () => {
 
   const { setAdminToken, backendUrl } = useContext(AdminContext);
   const { backendURL, doctorToken, setDoctorToken } = useContext(DoctorContext)
+  const navigate = useNavigate()
+
 
   //? submit handler
   const submitHandler = async (e) => {
@@ -27,7 +30,7 @@ const Login = () => {
 
         if (data.success) {
           setAdminToken(data?.adminToken);
-
+          navigate("/admin-dashboard")
         } else {
           toast.error(data.message)
         }

@@ -95,7 +95,7 @@ const adminLogin = async (req, res) => {
 
             return res
                 .status(200)
-                .cookie("adminToken", adminToken, options)
+                .cookie("adminToken", adminToken)
                 .json({ success: true, message: "Admin logged in successfully", adminToken: adminToken })
 
         } else {
