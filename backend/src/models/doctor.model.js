@@ -70,7 +70,8 @@ const doctorSchema = new Schema(
             default: {},
         },
     },
-    { minimize: false }
+    {timestamps: true},
+    { minimize: false },
 );
 
 //? password hashing

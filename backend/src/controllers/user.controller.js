@@ -81,11 +81,11 @@ const loginUser = async (req, res) => {
         }, process.env.USER_TOKEN_SECRET)
 
         const options = {
-                httpOnly: true,
-                secure: true,
-                sameSite: "None", 
-                path: "/",
-            };
+            httpOnly: true,
+            secure: true,
+            sameSite: "None",
+            path: "/",
+        };
 
         res
             .status(200)
@@ -220,7 +220,7 @@ const bookAppointment = async (req, res) => {
 const listAppointments = async (req, res) => {
     try {
         const userId = req.user._id
-        const appointments = await AppointmentModel.find({ userId })
+        const appointments = await AppointmentModel.find({ userId }).populate("userData").populate("docData", "name speciality image address")
 
         res.json({ success: true, message: "Appointments fetched successfully", appointments })
     } catch (error) {
@@ -269,7 +269,7 @@ const cancelAppointment = async (req, res) => {
 }
 
 //. razorpay payments 
-const  razorpayInstance = new Razorpay({
+const razorpayInstance = new Razorpay({
     key_id: process.env.RAZORPAY_KEY_ID,
     key_secret: process.env.RAZORPAY_KEY_SECRET
 })
@@ -306,20 +306,20 @@ const paymentRazorpay = async (req, res) => {
 //. api for verify razorpay 
 const verifyRazorpay = async (req, res) => {
     try {
-        const {razorpay_order_id} = req.body
+        const { razorpay_order_id } = req.body
         const orderInfo = await razorpayInstance.orders.fetch(razorpay_order_id)
         console.log(orderInfo);
-        if(orderInfo.status == "paid") {
+        if (orderInfo.status == "paid") {
             const appointmentId = orderInfo.receipt
-            await AppointmentModel.findByIdAndUpdate(appointmentId, {payment: true})
-            res.json({success: true, message: "Payment successfull"})
+            await AppointmentModel.findByIdAndUpdate(appointmentId, { payment: true })
+            res.json({ success: true, message: "Payment successfull" })
         } else {
-            res.json({success: false, message: "Payment failed"})
+            res.json({ success: false, message: "Payment failed" })
         }
     } catch (error) {
         console.error(error);
         res.json(
-            {success: false, message: error.message}
+            { success: false, message: error.message }
         )
     }
 }

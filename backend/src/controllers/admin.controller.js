@@ -89,7 +89,7 @@ const adminLogin = async (req, res) => {
             const options = {
                 httpOnly: true,
                 secure: true,
-                sameSite: "None", 
+                sameSite: "None",
                 path: "/"
             };
 
@@ -114,7 +114,7 @@ const adminLogin = async (req, res) => {
 const adminLogout = async (req, res) => {
     return res
         .clearCookie("adminToken")
-        .json({success: true, message: "Admin logged out successfully"})
+        .json({ success: true, message: "Admin logged out successfully" })
 }
 
 //. Get all doctors 
@@ -131,8 +131,8 @@ const getAllDoctors = async (req, res) => {
 //. Get all appointments
 const appointmentsAdmin = async (req, res) => {
     try {
-        const appointments = await AppointmentModel.find({})
-        console.log(appointments);
+        const appointments = await AppointmentModel.find().populate("userData").populate("docData")
+        // console.log(appointments);
         res.json({ success: true, message: "Appointments data fetched successfully", appointments })
     } catch (error) {
         console.error(error.message);
@@ -179,7 +179,7 @@ const adminDashboard = async (req, res) => {
     try {
         const doctors = await DoctorModel.find({})
         const users = await UserModel.find({})
-        const appointments = await AppointmentModel.find({})
+        const appointments = await AppointmentModel.find({}).populate("docData")
 
         const dashData = {
             doctors: doctors.length,
