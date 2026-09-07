@@ -99,6 +99,7 @@ export const doctors = [
       line1: "17th Cross, Richmond",
       line2: "Circle, Ring Road, London",
     },
+    email: "richardjames@gmail.com",
   },
   {
     _id: "doc2",
@@ -114,6 +115,7 @@ export const doctors = [
       line1: "27th Cross, Richmond",
       line2: "Circle, Ring Road, London",
     },
+    email: "emilylarson@gmail.com",
   },
   {
     _id: "doc3",
@@ -129,6 +131,7 @@ export const doctors = [
       line1: "37th Cross, Richmond",
       line2: "Circle, Ring Road, London",
     },
+    email: "sarahpatel@gmail.com",
   },
   {
     _id: "doc4",
@@ -144,6 +147,7 @@ export const doctors = [
       line1: "47th Cross, Richmond",
       line2: "Circle, Ring Road, London",
     },
+    email: "christopherlee@gmail.com",
   },
   {
     _id: "doc5",
@@ -159,6 +163,7 @@ export const doctors = [
       line1: "57th Cross, Richmond",
       line2: "Circle, Ring Road, London",
     },
+    email: "jennifergarcia@gmail.com",
   },
   {
     _id: "doc6",
@@ -174,6 +179,7 @@ export const doctors = [
       line1: "57th Cross, Richmond",
       line2: "Circle, Ring Road, London",
     },
+    email: "andrewwilliams@gmail.com",
   },
   {
     _id: "doc7",
@@ -189,6 +195,7 @@ export const doctors = [
       line1: "17th Cross, Richmond",
       line2: "Circle, Ring Road, London",
     },
+    email: "christopherdavis@gmail.com",
   },
   {
     _id: "doc8",
@@ -204,6 +211,7 @@ export const doctors = [
       line1: "27th Cross, Richmond",
       line2: "Circle, Ring Road, London",
     },
+    email: "timothywhite@gmail.com",
   },
   {
     _id: "doc9",
@@ -219,6 +227,7 @@ export const doctors = [
       line1: "37th Cross, Richmond",
       line2: "Circle, Ring Road, London",
     },
+    email: "avamitchell@gmail.com",
   },
   {
     _id: "doc10",
@@ -234,6 +243,7 @@ export const doctors = [
       line1: "47th Cross, Richmond",
       line2: "Circle, Ring Road, London",
     },
+    email: "jeffreyking@gmail.com",
   },
   {
     _id: "doc11",
@@ -249,6 +259,7 @@ export const doctors = [
       line1: "57th Cross, Richmond",
       line2: "Circle, Ring Road, London",
     },
+    email: "zoekelly@gmail.com",
   },
   {
     _id: "doc12",
@@ -264,6 +275,7 @@ export const doctors = [
       line1: "57th Cross, Richmond",
       line2: "Circle, Ring Road, London",
     },
+    email: "patrickharris@gmail.com",
   },
   {
     _id: "doc13",
@@ -279,6 +291,7 @@ export const doctors = [
       line1: "17th Cross, Richmond",
       line2: "Circle, Ring Road, London",
     },
+    email: "chloeevans@gmail.com",
   },
   {
     _id: "doc14",
@@ -294,6 +307,7 @@ export const doctors = [
       line1: "27th Cross, Richmond",
       line2: "Circle, Ring Road, London",
     },
+    email: "ryanmartinez@gmail.com",
   },
   {
     _id: "doc15",
@@ -309,5 +323,6 @@ export const doctors = [
       line1: "37th Cross, Richmond",
       line2: "Circle, Ring Road, London",
     },
+    email: "ameliahill@gmail.com",
   },
 ];
